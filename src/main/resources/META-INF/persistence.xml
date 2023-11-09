@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
+             version="3.0">
+    <persistence-unit name="default">
+
+        <class>sv.edu.cms.www.entities.AlumnoEntity</class>
+        <class>sv.edu.cms.www.entities.AsistenciaEntity</class>
+        <class>sv.edu.cms.www.entities.CasoEntity</class>
+        <class>sv.edu.cms.www.entities.CategoriaEntity</class>
+        <class>sv.edu.cms.www.entities.ClaseEntity</class>
+        <class>sv.edu.cms.www.entities.DiaEntity</class>
+        <class>sv.edu.cms.www.entities.DiarioEntity</class>
+        <class>sv.edu.cms.www.entities.EstadoEntity</class>
+        <class>sv.edu.cms.www.entities.EstadoasistenciaEntity</class>
+        <class>sv.edu.cms.www.entities.EstadocasoEntity</class>
+        <class>sv.edu.cms.www.entities.EvaluacionEntity</class>
+        <class>sv.edu.cms.www.entities.HorarioEntity</class>
+        <class>sv.edu.cms.www.entities.MaestroEntity</class>
+        <class>sv.edu.cms.www.entities.MaestromateriaEntity</class>
+        <class>sv.edu.cms.www.entities.MateriaEntity</class>
+        <class>sv.edu.cms.www.entities.NotaEntity</class>
+        <class>sv.edu.cms.www.entities.ObservacionEntity</class>
+        <class>sv.edu.cms.www.entities.PeriodoEntity</class>
+        <class>sv.edu.cms.www.entities.PermisoEntity</class>
+        <class>sv.edu.cms.www.entities.RolEntity</class>
+        <class>sv.edu.cms.www.entities.SalonEntity</class>
+        <class>sv.edu.cms.www.entities.SalonalumnoEntity</class>
+        <class>sv.edu.cms.www.entities.SaludEntity</class>
+        <class>sv.edu.cms.www.entities.TipoEntity</class>
+        <properties>
+            <property name="eclipselink.jdbc.url" value="jdbc:mysql://localhost:3306/portalcms?useSSL=false"/>
+            <property name="eclipselink.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="eclipselink.jdbc.user" value="root"/>
+        </properties>
+    </persistence-unit>
+</persistence>

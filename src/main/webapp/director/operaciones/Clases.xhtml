@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Gestor de clases</title>
+</h:head>
+
+<h:body>
+    <h:form>
+        <p:growl id="messages"/>
+
+        <p:menubar>
+
+            <p:menuitem value="Portal Web" url="../interfazDirector.xhtml" style="font-size: 16px"/>
+            <p:menuitem url="../interfazDirector.xhtml" style="font-size: 16px">
+                <i class="pi pi-home" style="font-size: 1em"> </i>Inicio
+            </p:menuitem>
+            <p:menuitem value="Alumnos" style="font-size: 16px"/>
+            <p:menuitem value="Maestros" url="Maestros.xhtml" style="font-size: 16px"/>
+            <p:menuitem value="Clases" style="font-size: 16px"/>
+            <p:menuitem value="Salones" url="Salones.xhtml" style="font-size: 16px"/>
+
+            <f:facet name="options">
+                <p:menuitem value="#{sessionScope.usuario.codigoMaestro}" icon="pi pi-fw pi-user"/>
+                <p:commandButton value="Cerrar Sesión" action="#{loginBean.logout}" icon="pi pi-fw pi-sign-out" styleClass="ui-button-info" ajax="false" style="font-size: 16px"/>
+            </f:facet>
+        </p:menubar>
+    </h:form>
+
+    <div style="padding: 70px;padding-top: 10px">
+        <div class="card" style="margin-bottom: 30px;margin-top: 20px">
+            <p:accordionPanel style="font-size: 16px;width: 75%">
+                <p:tab title="Detalles de Clase" style="font-size: 16px;">
+
+                    <h:form>
+                        <h:panelGrid columns="4" cellpadding="7" styleClass="mb-3" style="margin: 15px">
+                            <h:outputLabel for="salonAdd" value="Salón:" style="font-size: 16px;margin-right: 20px"/>
+                            <h:selectOneMenu id="salonAdd" value="#{claseBean.salonForm}" styleClass="form-control"  style="margin-bottom: 10px;margin-right: 30px">
+                                <f:selectItems value="#{salonBean.listaSalonesPerYear}" var="s" itemValue="#{s.idSalon}" itemLabel='#{s.grado} "#{s.seccion}" - #{salonBean.obtenerAnio(s.codigoSalon)}'/>
+                            </h:selectOneMenu>
+
+                            <h:outputLabel for="datosMateria" value="Materias impartidas:" style="font-size: 16px;margin-right: 20px"/>
+                            <h:selectOneMenu id="datosMateria" value="#{claseBean.maestroMateriaForm}" styleClass="form-control"  style="margin-bottom: 10px;margin-right: 30px">
+                                <f:selectItems value="#{maestroMateriaBean.maestroMateriaModel.listarDatosMM()}" var="m" itemValue="#{m.idMaestroMateria}" itemLabel="#{m.materiaByIdMateria.materia} - #{m.maestroByIdMaestro.apellidos}, #{m.maestroByIdMaestro.nombres}" />
+                            </h:selectOneMenu>
+                        </h:panelGrid>
+
+                        <p:commandButton value="Guardar" update="@form" action="#{claseBean.guardarClase}" ajax="false" style="font-size: 16px;margin-left: 15px; margin-bottom: 15px"/>
+                    </h:form>
+                </p:tab>
+                <p:tab title="Cambiar maestros en clase" style="font-size: 16px;">
+
+                    <h:form>
+                        <h:panelGrid columns="2" cellpadding="7" styleClass="mb-3" style="margin: 15px">
+                            <h:outputLabel for="clasesEdit" value="Clases:" style="font-size: 16px;margin-right: 20px"/>
+                            <h:selectOneMenu id="clasesEdit" value="#{claseBean.claseEdit}" styleClass="form-control"  style="margin-bottom: 10px;margin-right: 30px">
+                                <f:selectItems value="#{claseBean.claseModel.listarAllClases()}" var="c" itemValue="#{c.idClase}" itemLabel='#{c.salonByIdSalon.grado}° "#{c.salonByIdSalon.seccion}"  - #{c.maestromateriaByIdMateriaMaestro.materiaByIdMateria.materia} (#{c.maestromateriaByIdMateriaMaestro.maestroByIdMaestro.nombres} #{c.maestromateriaByIdMateriaMaestro.maestroByIdMaestro.apellidos})'/>
+                            </h:selectOneMenu>
+
+                            <h:outputLabel for="datosMateriaEdit" value="Materias impartidas:" style="font-size: 16px;margin-right: 20px"/>
+                            <h:selectOneMenu id="datosMateriaEdit" value="#{claseBean.maestroMateriaEdit}" styleClass="form-control"  style="margin-bottom: 10px;margin-right: 30px">
+                                <f:selectItems value="#{maestroMateriaBean.maestroMateriaModel.listarDatosMM()}" var="m" itemValue="#{m.idMaestroMateria}" itemLabel="#{m.materiaByIdMateria.materia} - #{m.maestroByIdMaestro.nombres} #{m.maestroByIdMaestro.apellidos}" />
+                            </h:selectOneMenu>
+                        </h:panelGrid>
+
+                        <p:commandButton value="Editar" update="@form" action="#{claseBean.editarClase}" ajax="false" style="font-size: 16px;margin-left: 15px; margin-bottom: 15px"/>
+                    </h:form>
+                </p:tab>
+            </p:accordionPanel>
+        </div>
+
+        <h:form>
+            <b:container>
+                <b:row>
+                    <b:column medium-screen="2">
+                        <h:outputLabel for="salonSelec" value="Buscar Las Clases por Salón:"/>
+                    </b:column>
+
+                    <b:column medium-screen="2">
+                        <h:selectOneMenu id="salonSelec" value="#{claseBean.salon}" styleClass="form-control" style="margin-bottom: 10px;">
+                            <f:selectItem itemLabel="Ver todos" itemValue="0" />
+                            <f:selectItems value="#{salonBean.listaSalones}" var="s" itemValue="#{s.idSalon}" itemLabel='#{s.grado} "#{s.seccion}"'/>
+                        </h:selectOneMenu>
+                    </b:column>
+
+                    <b:column medium-screen="2">
+                        <h:commandButton value="Buscar" styleClass="btn btn-info" />
+                    </b:column>
+                </b:row>
+            </b:container>
+        </h:form>
+
+        <b:dataTable id="clasesTable" value="#{claseBean.claseModel.obtenerClases(claseBean.salon)}" var="c" styleClass="table table-striped mt-5">
+            <b:dataTableColumn value="#{c.codigoClase}"/>
+            <b:column label="Salón" >
+                <h:outputText value='#{c.salonByIdSalon.grado} "#{c.salonByIdSalon.seccion}"'/>
+            </b:column>
+            <b:column label="Maestro" >
+                <h:outputText value="#{c.maestromateriaByIdMateriaMaestro.maestroByIdMaestro.nombres}"/>
+            </b:column>
+            <b:column label="Materia" >
+                <h:outputText value="#{c.maestromateriaByIdMateriaMaestro.materiaByIdMateria.materia}"/>
+            </b:column>
+
+            <h:column label="Operaciones">
+                <h:form>
+                    <h:commandButton value="Eliminar" styleClass="btn btn-danger" onclick="return confirmarEliminacion();" action="#{claseBean.eliminarClase}" rendered="#{salonBean.compararAnios(salonBean.obtenerAnio(c.salonByIdSalon.codigoSalon))}">
+                        <f:param name="codigo" value="#{c.idClase}" />
+                    </h:commandButton>
+                </h:form>
+            </h:column>
+        </b:dataTable>
+
+    </div>
+
+    <h:outputScript>
+        <c:if test = "#{not empty flash.exito}" >
+            alertify.success('#{flash.exito}');
+        </c:if>
+
+        function confirmarEliminacion(){
+        return confirm("¿Está seguro que desea eliminar esta clase?");
+        }
+    </h:outputScript>
+</h:body>
+
+</html>

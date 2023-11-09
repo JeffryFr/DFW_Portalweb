@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:head>
+    <title>Index Maestro</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"></link>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</h:head>
+<h:body>
+    <div class="container mt-5">
+        <h2>Bienvenido/a #{sessionScope.usuario.nombres}, a la interfaz de maestro #{sessionScope.usuario.codigoMaestro} #{sessionScope.usuario.idMaestro}</h2>
+        <h:form>
+            <h:commandButton value="Cerrar Sesión" action="#{loginBean.logout}" styleClass="btn btn-danger" />
+        </h:form>
+    </div>
+
+    <h:outputScript>
+        //Verificación de sesión
+        <c:if test = "#{not empty sessionScope.rol}" >
+            var rol = "#{sessionScope.rol}";
+            if (rol === 'Director') {
+            window.location.href = '../director/interfazDirector.xhtml';
+            } else if (rol === 'Alumno') {
+            window.location.href = '../alumno/interfazAlumno.xhtml';
+            }
+        </c:if>
+        <c:if test = "#{empty sessionScope.rol}" >
+            window.location.href = '../login.xhtml';
+        </c:if>
+    </h:outputScript>
+</h:body>
+
+</html>

@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Gestor de alumnos</title>
+</h:head>
+
+<h:body>
+    <h:form>
+        <p:growl id="messages"/>
+
+        <p:menubar>
+
+            <p:menuitem value="Portal Web" url="../interfazDirector.xhtml" style="font-size: 16px"/>
+            <p:menuitem url="../interfazDirector.xhtml" style="font-size: 16px">
+                <i class="pi pi-home" style="font-size: 1em"> </i>Inicio
+            </p:menuitem>
+            <p:menuitem value="Alumnos" style="font-size: 16px"/>
+            <p:menuitem value="Maestros" url="Maestros.xhtml" style="font-size: 16px"/>
+            <p:menuitem value="Clases" url="Clases.xhtml" style="font-size: 16px"/>
+            <p:menuitem value="Salones" url="Salones.xhtml" style="font-size: 16px"/>
+
+            <f:facet name="options">
+                <p:menuitem value="#{sessionScope.usuario.codigoMaestro}" icon="pi pi-fw pi-user"/>
+                <p:commandButton value="Cerrar Sesión" action="#{loginBean.logout}" icon="pi pi-fw pi-sign-out" styleClass="ui-button-info" ajax="false" style="font-size: 16px"/>
+            </f:facet>
+        </p:menubar>
+    </h:form>
+
+    <div style="padding: 70px;padding-top: 10px">
+        <div class="card" style="margin-bottom: 30px;margin-top: 20px">
+            <h:form>
+                <p:commandButton value="Salir de la vista de Alumno" styleClass="ui-button-success" action="#{alumnoBean.Regresar()}" rendered="#{not empty alumnoBean.detalles}"  ajax="false" style="font-size: 16px; margin-top: 15px;margin-bottom: 10px"/>
+            </h:form>
+            <p:accordionPanel style="font-size: 16px;width: 75%" multiple="true">
+
+                <p:tab title="Datos Generales" style="font-size: 16px;" rendered="#{not empty alumnoBean.detalles}" closable="false">
+
+                    <h:panelGrid columns="4" cellpadding="7" styleClass="mb-3" style="margin: 15px" >
+                        <h:outputLabel value="Nombre:" style="font-size: 16px;margin-right: 20px"/>
+                        <h:outputText value="#{alumnoBean.saludSeleccionada.alumnoByIdAlumno.nombres} #{alumnoBean.saludSeleccionada.alumnoByIdAlumno.apellidos}" style="font-size: 16px; margin-bottom: 15px"/>
+                        <h:outputText value=""/>
+                        <h:outputText value=""/>
+
+                        <h:outputLabel value="Codigo:" style="font-size: 16px;margin-right: 20px"/>
+                        <h:outputText value="#{alumnoBean.saludSeleccionada.alumnoByIdAlumno.codigoAlumno}" style="font-size: 16px;margin-right: 60px; margin-bottom: 15px"/>
+                        <h:outputLabel value="Contraseña:" style="font-size: 16px;margin-right: 20px"/>
+                        <h:outputText value="#{alumnoBean.saludSeleccionada.alumnoByIdAlumno.contra}" style="font-size: 16px;margin-right: 60px; margin-bottom: 15px"/>
+
+                        <h:outputLabel value="Fecha de Nacimiento:" style="font-size: 16px;margin-right: 20px"/>
+                        <h:outputText value="#{alumnoBean.saludSeleccionada.alumnoByIdAlumno.fechaNacimiento.date}/#{alumnoBean.saludSeleccionada.alumnoByIdAlumno.fechaNacimiento.month}/#{alumnoBean.saludSeleccionada.alumnoByIdAlumno.fechaNacimiento.year}" style="font-size: 16px;margin-right: 60px; margin-bottom: 15px"/>
+                        <h:outputLabel value="Sexo:" style="font-size: 16px;margin-right: 20px"/>
+                        <h:outputText value="#{alumnoBean.saludSeleccionada.alumnoByIdAlumno.genero}" style="font-size: 16px;margin-right: 60px; margin-bottom: 15px"/>
+
+                    </h:panelGrid>
+                </p:tab>
+                <p:tab title="Emergencia" style="font-size: 16px;" rendered="#{ not empty alumnoBean.detalles}" closable="false">
+
+                    <h:panelGrid columns="4" cellpadding="7" styleClass="mb-3" style="margin: 15px">
+
+                        <h:outputLabel value="Grupo Sanguineo:" style="font-size: 16px;margin-right: 20px"/>
+                        <h:outputText value="#{alumnoBean.saludSeleccionada.alumnoByIdAlumno.grupoSanguineo}" style="font-size: 16px;margin-right: 60px; margin-bottom: 15px"/>
+                        <h:outputLabel value="Dirección:" style="font-size: 16px;margin-right: 20px"/>
+                        <h:outputText value="#{alumnoBean.saludSeleccionada.alumnoByIdAlumno.direccion}" style="font-size: 16px;margin-right: 60px; margin-bottom: 15px"/>
+
+                        <h:outputLabel value="Responsable:" style="font-size: 16px;margin-right: 20px"/>
+                        <h:outputText value="#{alumnoBean.saludSeleccionada.alumnoByIdAlumno.responsable}" style="font-size: 16px;margin-right: 60px; margin-bottom: 15px"/>
+                        <h:outputLabel value="Contacto:" style="font-size: 16px;margin-right: 20px"/>
+                        <h:outputText value="#{alumnoBean.saludSeleccionada.alumnoByIdAlumno.telefono}" style="font-size: 16px;margin-right: 60px; margin-bottom: 15px"/>
+
+                        <h:outputLabel value="Medicamentos:" style="font-size: 16px;margin-right: 20px"/>
+                        <h:outputText value="#{alumnoBean.saludSeleccionada.medicamentos}" style="font-size: 16px;margin-right: 60px; margin-bottom: 15px"/>
+                        <h:outputLabel value="Alergias:" style="font-size: 16px;margin-right: 20px"/>
+                        <h:outputText value="#{alumnoBean.saludSeleccionada.alergias}" style="font-size: 16px;margin-right: 60px; margin-bottom: 15px"/>
+
+                        <h:outputLabel value="Enfermedades Previas:" style="font-size: 16px;margin-right: 20px"/>
+                        <h:outputText value="#{alumnoBean.saludSeleccionada.enfermedad}" style="font-size: 16px"/>
+
+                    </h:panelGrid>
+                </p:tab>
+
+                <p:tab title="Detalles de Alumno" style="font-size: 16px;" rendered="#{empty alumnoBean.detalles}">
+
+                    <h:form>
+                        <h:panelGrid columns="4" cellpadding="7" styleClass="mb-3" style="margin: 15px">
+                            <p:outputLabel for="nombres" value="Nombres:" style="font-size: 16px;margin-right: 20px"/>
+                            <p:inputText id="nombres" value="#{alumnoBean.alumno.nombres}" required="true" label="Nombres" requiredMessage="Debes ingresar los apellidos" style="font-size: 16px;margin-bottom: 10px;margin-right: 30px"/>
+
+                            <p:outputLabel for="apellidos" value="Apellidos:" style="font-size: 16px;margin-right: 20px"/>
+                            <p:inputText id="apellidos" value="#{alumnoBean.alumno.apellidos}" label="Apellidos" required="true" requiredMessage="Debes ingresar los apellidos" style="font-size: 16px;margin-bottom: 10px;margin-right: 30px"/>
+
+                            <p:outputLabel for="fechanac" value="Fecha de nacimiento:" style="font-size: 16px;margin-right: 20px;margin-bottom: 10px"/>
+                            <p:calendar id="fechanac" value="#{alumnoBean.alumno.fechaNacimiento}" showTime="false" required="true" requiredMessage="Debes seleccionar la fecha de nacimiento"  style="font-size: 16px;margin-bottom: 10px;margin-right: 30px"/>
+
+                            <p:outputLabel for="genero" value="Sexo:" style="font-size: 16px;margin-right: 20px;margin-bottom: 10px"/>
+                            <p:selectOneRadio id="genero" value="#{alumnoBean.alumno.genero}" layout="lineDirection" label="Género" required="true" requiredMessage="Debes seleccionar el género" style="font-size: 12px;margin-bottom: 10px">
+                                <f:selectItem itemLabel="Masculino   " itemValue="Masculino"  style="font-size: 13px;margin-bottom: 10px;margin-right: 10px"/>
+                                <f:selectItem itemLabel="Femenino" itemValue="Femenino"  style="font-size: 13px;margin-bottom: 10px"/>
+                            </p:selectOneRadio>
+
+                            <p:outputLabel for="grupoSan" value="Grupo Sanguineo:" style="font-size: 16px;margin-right: 20px"/>
+                            <p:inputText id="grupoSan" value="#{alumnoBean.alumno.grupoSanguineo}" required="true" label="Grupo Sanguineo" requiredMessage="Debes ingresar el grupo sanguinero"  style="font-size: 16px;margin-bottom: 10px;margin-right: 30px"/>
+
+                            <p:outputLabel for="responsable" value="Responsable:" style="font-size: 16px;margin-right: 20px"/>
+                            <p:inputText id="responsable" value="#{alumnoBean.alumno.responsable}" required="true" label="Responsable" requiredMessage="Debes ingresar el responsable"  style="font-size: 16px;margin-bottom: 10px;margin-right: 30x"/>
+
+                            <p:outputLabel for="telefono" value="Telefono de Responsable:" style="font-size: 16px;margin-right: 20px"/>
+                            <p:inputText id="telefono" value="#{alumnoBean.alumno.telefono}" required="true" label="Número de contacto" requiredMessage="Debes ingresar el telefono del responsable"  style="font-size: 16px;margin-bottom: 10px;margin-right: 30px">
+                                <f:validateRegex pattern="^[67]\d{7}$"/>
+                            </p:inputText>
+
+                            <p:outputLabel for="direccion" value="Dirección:" style="font-size: 16px;margin-right: 20px"/>
+                            <p:inputText id="direccion" value="#{alumnoBean.alumno.direccion}" required="true" label="Dirección" requiredMessage="Debes ingresar la dirección"  style="font-size: 16px;margin-bottom: 10px;margin-right: 30px"/>
+
+                            <p:outputLabel for="salones" value="Salón:" style="font-size: 16px;margin-right: 20px"/>
+                            <h:selectOneMenu id="salones" styleClass="form-control" value="#{alumnoBean.salonSeleccionado}" style="width:125px;font-size: 16px;margin-bottom: 10px;margin-right: 30px" required="true" requiredMessage="Debes seleccionar el salón">
+                                <f:selectItems value="#{alumnoBean.alumnoModel.salones}" var="s" itemLabel='#{s.grado} "#{s.seccion}"' itemValue="#{s.idSalon}" style="font-size: 16px;margin-bottom: 10px;margin-right: 30px"/>
+                            </h:selectOneMenu>
+                            <h:outputLabel value=""/>
+                            <h:outputLabel value=""/>
+
+                            <p:outputLabel value="Situación de salud" style="font-size: 16px;margin-right: 20px"/>
+                            <h:outputLabel value=""/>
+                            <h:outputLabel value=""/>
+                            <h:outputLabel value=""/>
+
+                            <p:outputLabel for="enfermedad" value="Enfermedades previas:" style="font-size: 16px;margin-right: 20px"/>
+                            <p:inputTextarea rows="3" cols="25" id="enfermedad" value="#{alumnoBean.salud.enfermedad}"  style="font-size: 16px;margin-bottom: 10px;margin-right: 30px"/>
+
+                            <p:outputLabel for="enfermedad" value="Alergias:" style="font-size: 16px;margin-right: 20px"/>
+                            <p:inputTextarea rows="3" cols="25" id="alergia" value="#{alumnoBean.salud.alergias}" style="font-size: 16px;margin-bottom: 10px;margin-right: 30px"/>
+
+                            <p:outputLabel for="medicamento" value="Medicamentos:" style="font-size: 16px;margin-right: 20px"/>
+                            <p:inputTextarea rows="3" cols="25" id="medicamento" value="#{alumnoBean.salud.medicamentos}"   style="font-size: 16px;margin-bottom: 10px;margin-right: 30px"/>
+
+                        </h:panelGrid>
+
+                        <h:inputHidden value="#{alumnoBean.alumno.idAlumno}"/>
+                        <h:inputHidden value="#{alumnoBean.alumno.codigoAlumno}"/>
+                        <h:inputHidden value="#{alumnoBean.alumno.contra}"/>
+                        <h:inputHidden value="#{alumnoBean.salud.idSalud}"/>
+                        <h:inputHidden value="#{alumnoBean.salonalumnoSeleccionado}"/>
+                        <p:commandButton value="Guardar" update="@form" action="#{alumnoBean.guardarAlumno()}"  ajax="false" style="font-size: 16px;margin-left: 15px; margin-bottom: 15px"/>
+                        <p:commandButton value="Limpiar" update="@form" styleClass="ui-button-secondary" action="#{alumnoBean.limpiar()}"  ajax="false" style="font-size: 16px;margin-left: 15px; margin-bottom: 15px"/>
+
+                    </h:form>
+                </p:tab>
+            </p:accordionPanel>
+        </div>
+
+        <h:form>
+            <b:dataTable value="#{alumnoBean.listaAlumnos}" var="est">
+                <b:dataTableColumn value="#{est.codigoAlumno}"/>
+                <b:dataTableColumn value="#{est.apellidos}"/>
+                <b:dataTableColumn value="#{est.nombres}"/>
+                <b:dataTableColumn value="#{est.contra}" label="Contraseña"/>
+                <b:dataTableColumn value='#{alumnoBean.alumnoModel.obtenerSalon(est.idAlumno).salonByIdSalon.grado} "#{alumnoBean.alumnoModel.obtenerSalon(est.idAlumno).salonByIdSalon.seccion}"' label="Salón"/>
+                <b:dataTableColumn value="#{est.genero}"/>
+                <b:dataTableColumn value="#{est.estadoByIdEstado.estado}" styleClass="#{est.estadoByIdEstado.estado}"/>
+                <b:dataTableColumn label="Operaciones">
+                    <h:commandButton value="Editar" styleClass="btn btn-info" action="#{alumnoBean.obtenerAlumno}" style="margin-right:10px">
+                        <f:param name="codigo" value="#{est.idAlumno}" />
+                    </h:commandButton>
+                    <h:commandButton value="Detalles" styleClass="btn btn-success" action="#{alumnoBean.verDetalles}" style="margin-right:10px">
+                        <f:param name="codigo" value="#{est.idAlumno}" />
+                    </h:commandButton>
+                    <h:commandButton value="Cambiar Contraseña" styleClass="btn btn-light" action="#{alumnoBean.cambiarContra}" style="margin-right:10px">
+                        <f:param name="codigo" value="#{est.idAlumno}" />
+                    </h:commandButton>
+                    <h:commandButton value="X" styleClass="btn btn-danger" onclick="return confirmarEliminacion();" action="#{alumnoBean.eliminarAlumno}">
+                        <f:param name="codigo" value="#{est.idAlumno}" />
+                    </h:commandButton>
+                </b:dataTableColumn>
+            </b:dataTable>
+        </h:form>
+    </div>
+    <h:outputScript>
+        <c:if test = "#{not empty flash.exito}" >
+            alertify.success('#{flash.exito}');
+        </c:if>
+        function showModalOnComplete(data) {
+            if (data.status === 'success') {
+                $('.responsiveModalPseudoClass').modal('show');
+            }
+        }
+
+        function confirmarEliminacion(){
+        return confirm("¿Está seguro que desea eliminar este alumno");
+        }
+    </h:outputScript>
+    <c:choose>
+        <c:when test="#{not empty sessionScope.rol}">
+            <c:set var="rol" value="#{sessionScope.rol}" />
+            <c:choose>
+                <c:when test="#{rol eq 'Maestro'}">
+                    <h:outputScript>
+                        window.location.href = '../../maestro/interfazMaestro.xhtml';
+                    </h:outputScript>
+                </c:when>
+                <c:when test="#{rol eq 'Alumno'}">
+                    <h:outputScript>
+                        window.location.href = '../../alumno/interfazAlumno.xhtml';
+                    </h:outputScript>
+                </c:when>
+            </c:choose>
+        </c:when>
+        <c:otherwise>
+            <h:outputScript>
+                window.location.href = '../../login.xhtml';
+            </h:outputScript>
+        </c:otherwise>
+    </c:choose>
+</h:body>
+
+</html>

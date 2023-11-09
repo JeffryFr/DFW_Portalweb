@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:head>
+    <title>Login</title>
+    <h:outputStylesheet name="cssLogin/cssDWF.css" />
+</h:head>
+
+<h:body>
+    <div class="login-container">
+        <div class="form-container">
+            <h:form id="login" class="form">
+                <h:panelGroup layout="block" id="alert1" rendered="#{not empty facesContext.messageList}" style="color: #e11a2c;background-color: #E7F0ECCC;padding: 15px;border: 1px solid #E7F0ECCC;border-radius: 4px;font-weight: bold;list-style-type: none;margin: 0;">
+                    <h:messages />
+                </h:panelGroup>
+
+                <h2 class="form1-title">Login</h2>
+                <h:outputLabel for="codigo" value="Codigo:" class="form1-label" />
+                <h:inputText id="codigo" value="#{loginBean.codigo}" class="form1-input" required="true" requiredMessage="Debes ingresar el usuario" placeholder="Ingresa tu usuario" />
+
+                <h:outputLabel for="contra" value="Contraseña:" class="form1-label" />
+                <h:inputSecret id="contra" value="#{loginBean.contra}" class="form1-input" required="true" requiredMessage="Debes ingresar la contraseña" placeholder="Ingresa tu contraseña" />
+
+                <h:commandButton value="Iniciar Sesión" class="form1b" action="#{loginBean.login}"  />
+
+            </h:form>
+        </div>
+    </div>
+    <h:outputScript>
+        <c:if test = "#{not empty flash.exito}" >
+            alertify.success('#{flash.exito}');
+        </c:if>
+
+        //Verificación de sesión
+        <c:if test = "#{not empty sessionScope.rol}" >
+            var rol = "#{sessionScope.rol}";
+            if (rol === 'Director') {
+            window.location.href = 'director/interfazDirector.xhtml';
+            } else if (rol === 'Maestro') {
+            window.location.href = 'maestro/interfazMaestro.xhtml';
+            } else if (rol === 'Alumno') {
+            window.location.href = 'alumno/interfazAlumno.xhtml';
+            }
+        </c:if>
+    </h:outputScript>
+</h:body>
+
+</html>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Gestor de Salones</title>
+</h:head>
+
+<h:body>
+    <h:form>
+        <p:growl id="messages"/>
+
+        <p:menubar>
+
+            <p:menuitem value="Portal Web" url="../interfazDirector.xhtml" style="font-size: 16px"/>
+            <p:menuitem url="../interfazDirector.xhtml" style="font-size: 16px">
+                <i class="pi pi-home" style="font-size: 1em"> </i>Inicio
+            </p:menuitem>
+            <p:menuitem value="Alumnos" url="Alumnos.xhtml" style="font-size: 16px"/>
+            <p:menuitem value="Maestros" url="Maestros.xhtml" style="font-size: 16px"/>
+            <p:menuitem value="Clases" url="Clases.xhtml" style="font-size: 16px"/>
+            <p:menuitem value="Salones" style="font-size: 16px"/>
+
+            <f:facet name="options">
+                <p:menuitem value="#{sessionScope.usuario.codigoMaestro}" icon="pi pi-fw pi-user"/>
+                <p:commandButton value="Cerrar Sesión" action="#{loginBean.logout}" icon="pi pi-fw pi-sign-out" styleClass="ui-button-info" ajax="false" style="font-size: 16px"/>
+            </f:facet>
+        </p:menubar>
+    </h:form>
+
+    <div style="padding: 70px;padding-top: 10px">
+        <div class="card" style="margin-bottom: 30px;margin-top: 20px">
+
+            <h:form>
+                <p:commandButton value="Regresar" styleClass="ui-button-success" action="#{salonBean.Regresar()}" rendered="#{not empty salonBean.detalles}"  ajax="false" style="font-size: 16px; margin-top: 15px;margin-bottom: 10px"/>
+            </h:form>
+
+            <p:accordionPanel style="font-size: 16px;width: 75%" multiple="true">
+                <p:tab title="Alumnos" style="font-size: 16px;" rendered="#{not empty salonBean.detalles}">
+                    <b:dataTable value="#{salonBean.alumnos}"
+                                 var="a"
+                                 id="alumnosTable"
+                                 responsive="true">
+                        <b:dataTableColumn value="#{a.alumnoByIdAlumno.codigoAlumno}" label="Codigo Alumno"/>
+                        <b:dataTableColumn value="#{a.alumnoByIdAlumno.nombres} #{a.alumnoByIdAlumno.apellidos}" label="Nombre"/>
+                        <b:dataTableColumn value="#{a.year}" label="Año"/>
+                    </b:dataTable>
+                </p:tab>
+                <p:tab title="Detalles de Salon #{salonBean.salon.codigoSalon}" style="font-size: 16px;" rendered="#{empty salonBean.detalles}">
+
+                    <h:form>
+                        <h:panelGrid columns="4" cellpadding="7" styleClass="mb-3" style="margin: 15px">
+
+                            <h:outputLabel for="seccionAdd" value="Sección:" style="font-size: 16px;margin-right: 20px"/>
+                            <h:selectOneMenu id="seccionAdd" value="#{salonBean.salon.seccion}" styleClass="form-control" style="width:125px;font-size: 16px;margin-bottom: 10px;margin-right: 30px">
+                                <f:selectItem itemLabel="A" itemValue="A" style="font-size: 16px;margin-bottom: 10px;margin-right: 30px"/>
+                                <f:selectItem itemLabel="B" itemValue="B" style="font-size: 16px;margin-bottom: 10px;margin-right: 30px"/>
+                            </h:selectOneMenu>
+
+                            <h:outputLabel for="gradoAdd" value="Grado:" style="font-size: 16px;margin-right: 20px"/>
+                            <h:selectOneMenu id="gradoAdd" value="#{salonBean.salon.grado}" styleClass="form-control" style="width:125px;font-size: 16px;margin-bottom: 10px;margin-right: 30px">
+                                <f:selectItem itemLabel="1°" itemValue="1" style="font-size: 16px;margin-bottom: 10px;margin-right: 30px"/>
+                                <f:selectItem itemLabel="2°" itemValue="2" style="font-size: 16px;margin-bottom: 10px;margin-right: 30px"/>
+                                <f:selectItem itemLabel="3°" itemValue="3" style="font-size: 16px;margin-bottom: 10px;margin-right: 30px"/>
+                                <f:selectItem itemLabel="4°" itemValue="4" style="font-size: 16px;margin-bottom: 10px;margin-right: 30px"/>
+                                <f:selectItem itemLabel="5°" itemValue="5" style="font-size: 16px;margin-bottom: 10px;margin-right: 30px"/>
+                                <f:selectItem itemLabel="6°" itemValue="6" style="font-size: 16px;margin-bottom: 10px;margin-right: 30px"/>
+                                <f:selectItem itemLabel="7°" itemValue="7" style="font-size: 16px;margin-bottom: 10px;margin-right: 30px"/>
+                                <f:selectItem itemLabel="8°" itemValue="8" style="font-size: 16px;margin-bottom: 10px;margin-right: 30px"/>
+                                <f:selectItem itemLabel="9°" itemValue="9" style="font-size: 16px;margin-bottom: 10px;margin-right: 30px"/>
+                            </h:selectOneMenu>
+
+                            <h:outputLabel for="maestroAdd" value="Maestro" style="font-size: 16px;margin-right: 20px"/>
+                            <h:selectOneMenu id="maestroAdd" value="#{salonBean.maestro}" styleClass="form-control" style="width:300px;font-size: 16px;margin-bottom: 10px;margin-right: 30px">
+                                <f:selectItems value="#{maestroBean.maestroModel.onlyMaestrosList()}" var="m" itemValue="#{m.idMaestro}" itemLabel='#{m.apellidos}, #{m.nombres}' style="font-size: 16px;margin-bottom: 10px;margin-right: 30px"/>
+                            </h:selectOneMenu>
+
+                        </h:panelGrid>
+
+                        <h:inputHidden value="#{salonBean.salon.idSalon}"/>
+                        <h:inputHidden value="#{salonBean.salon.codigoSalon}"/>
+                        <p:commandButton value="Guardar" update="@form" action="#{salonBean.guardarSalon}" ajax="false" style="font-size: 16px;margin-left: 15px; margin-bottom: 15px"/>
+                    </h:form>
+                </p:tab>
+            </p:accordionPanel>
+        </div>
+
+        <h:form>
+            <b:dataTable widgetVar="SalonTable" value="#{salonBean.salonModel.salon}" var="s" styleClass="table table-striped mt-5">
+                <b:dataTableColumn value="#{s.codigoSalon}"/>
+                <b:dataTableColumn value="#{s.grado}°"/>
+                <b:dataTableColumn value="#{s.seccion}"/>
+                <b:dataTableColumn label="Orientador" >
+                    <h:outputText value="#{s.maestroByOrientador.apellidos}, #{s.maestroByOrientador.nombres}"/>
+                </b:dataTableColumn>
+                <b:dataTableColumn value="#{salonBean.obtenerAnio(s.codigoSalon)}" label="Año" />
+                <b:dataTableColumn label="Operaciones">
+                    <h:commandButton value="Ver Alumnos" styleClass="btn btn-success" action="#{salonBean.verAlumnos}" style="margin-right:10px">
+                        <f:param name="codigo" value="#{s.idSalon}" />
+                    </h:commandButton>
+                    <h:commandButton value="X" styleClass="btn btn-danger" onclick="return confirmarEliminacion();" action="#{salonBean.eliminarSalon()}" style="margin-right:10px" rendered="#{salonBean.compararAnios(salonBean.obtenerAnio(s.codigoSalon))}">
+                        <f:param name="codigo" value="#{s.idSalon}" />
+                    </h:commandButton>
+                    <h:commandButton value="Editar" styleClass="btn btn-info" action="#{salonBean.obtenerSalon}" style="margin-right:10px" rendered="#{salonBean.compararAnios(salonBean.obtenerAnio(s.codigoSalon))}">
+                        <f:param name="codigo" value="#{s.idSalon}" />
+                    </h:commandButton>
+                </b:dataTableColumn>
+            </b:dataTable>
+        </h:form>
+
+    </div>
+
+    <h:outputScript>
+        <c:if test = "#{not empty flash.exito}" >
+            alertify.success('#{flash.exito}');
+        </c:if>
+
+        function confirmarEliminacion(){
+        return confirm("¿Está seguro que desea eliminar este salón?");
+        }
+    </h:outputScript>
+    <c:choose>
+        <c:when test="#{not empty sessionScope.rol}">
+            <c:set var="rol" value="#{sessionScope.rol}" />
+            <c:choose>
+                <c:when test="#{rol eq 'Maestro'}">
+                    <h:outputScript>
+                        window.location.href = '../../maestro/interfazMaestro.xhtml';
+                    </h:outputScript>
+                </c:when>
+                <c:when test="#{rol eq 'Alumno'}">
+                    <h:outputScript>
+                        window.location.href = '../../alumno/interfazAlumno.xhtml';
+                    </h:outputScript>
+                </c:when>
+            </c:choose>
+        </c:when>
+        <c:otherwise>
+            <h:outputScript>
+                window.location.href = '../../login.xhtml';
+            </h:outputScript>
+        </c:otherwise>
+    </c:choose>
+</h:body>
+
+</html>

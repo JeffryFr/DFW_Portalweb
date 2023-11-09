@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Gestor de Maestros</title>
+</h:head>
+
+<h:body>
+    <h:form>
+        <p:growl id="messages"/>
+
+        <p:menubar>
+
+            <p:menuitem value="Portal Web" url="../interfazDirector.xhtml" style="font-size: 16px"/>
+            <p:menuitem url="../interfazDirector.xhtml" style="font-size: 16px">
+                <i class="pi pi-home" style="font-size: 1em"> </i>Inicio
+            </p:menuitem>
+            <p:menuitem value="Alumnos" url="Alumnos.xhtml" style="font-size: 16px"/>
+            <p:menuitem value="Maestros" style="font-size: 16px"/>
+            <p:menuitem value="Clases" url="Clases.xhtml" style="font-size: 16px"/>
+            <p:menuitem value="Salones" url="Salones.xhtml" style="font-size: 16px"/>
+
+            <f:facet name="options">
+                <p:menuitem value="#{sessionScope.usuario.codigoMaestro}" icon="pi pi-fw pi-user"/>
+                <p:commandButton value="Cerrar Sesión" action="#{loginBean.logout}" icon="pi pi-fw pi-sign-out" styleClass="ui-button-info" ajax="false" style="font-size: 16px"/>
+            </f:facet>
+        </p:menubar>
+    </h:form>
+
+    <div style="padding: 70px;padding-top: 10px">
+        <div class="card" style="margin-bottom: 30px;margin-top: 20px">
+            <h:form rendered="#{maestroMateriaBean.materias}">
+                <p:commandButton value="Salir de la vista" styleClass="ui-button-success" action="#{maestroMateriaBean.Regresar()}" ajax="false" style="font-size: 16px; margin-top: 15px;margin-bottom: 10px"/><br/>
+                <p:outputLabel for="materia" value="Seleccione la materia:" style="font-size: 16px;margin-right: 20px;margin-bottom: 10px" />
+                <h:selectOneMenu id="materia" styleClass="form-control" value="#{maestroMateriaBean.materiaSeleccionada}" required="true" requiredMessage="Debes seleccionar la materia" style="width:125px;font-size: 16px;margin-bottom: 10px;margin-right: 30px" >
+                    <f:selectItems value="#{maestroMateriaBean.maestroMateriaModel.materiaLista()}" var="ml" itemLabel="#{ml.materia}" itemValue="#{ml.idMateria}"  style="font-size: 13px;margin-bottom: 10px;margin-right: 10px"/>
+                </h:selectOneMenu>
+
+                <h:inputHidden value="#{maestroMateriaBean.usuario}"/>
+                <h:commandButton value="Guardar" styleClass="btn btn-info" action="#{maestroMateriaBean.guardarMaestroMateria()}" style="font-size: 16px; margin-bottom: 15px"/>
+
+            </h:form>
+
+            <hr/>
+            <p:accordionPanel style="font-size: 16px;width: 75%" >
+                <p:tab title="Detalles de usuario #{maestroBean.maestro.codigoMaestro}" style="font-size: 16px;" rendered="#{not maestroMateriaBean.materias}">
+
+                    <h:form>
+                        <h:panelGrid columns="4" cellpadding="7" styleClass="mb-3" style="margin: 15px">
+                            <p:outputLabel for="nombres" value="Nombres:" style="font-size: 16px;margin-right: 20px"/>
+                            <p:inputText id="nombres" value="#{maestroBean.maestro.nombres}" required="true" label="Nombres" requiredMessage="Debes ingresar los nombres" style="font-size: 16px;margin-bottom: 10px;margin-right: 30px"/>
+
+                            <p:outputLabel for="apellidos" value="Apellidos:" style="font-size: 16px;margin-right: 20px"/>
+                            <p:inputText id="apellidos" value="#{maestroBean.maestro.apellidos}" label="Apellidos" required="true" requiredMessage="Debes ingresar los apellidos" style="font-size: 16px;margin-bottom: 10px;margin-right: 30px"/>
+
+                            <p:outputLabel for="correo" value="Correo:" style="font-size: 16px;margin-right: 20px"/>
+                            <p:inputText id="correo" value="#{maestroBean.maestro.correo}" required="true" label="Responsable" requiredMessage="Debes ingresar el correo"  style="font-size: 16px;margin-bottom: 10px;margin-right: 30x">
+                                <f:validateRegex pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"/>
+                            </p:inputText>
+
+                            <p:outputLabel for="telefono" value="Telefono:" style="font-size: 16px;margin-right: 20px"/>
+                            <p:inputText id="telefono" value="#{maestroBean.maestro.telefono}" required="true" label="Número de contacto" requiredMessage="Debes ingresar el telefono"  style="font-size: 16px;margin-bottom: 10px;margin-right: 30px">
+                                <f:validateRegex pattern="^[67]\d{7}$"/>
+                            </p:inputText>
+
+                            <p:outputLabel for="direccion" value="Dirección:" style="font-size: 16px;margin-right: 20px" />
+                            <p:inputText id="direccion" value="#{maestroBean.maestro.direccion}" required="true" label="Dirección" requiredMessage="Debes ingresar la dirección"  style="font-size: 16px;margin-bottom: 10px;margin-right: 30px"/>
+                        </h:panelGrid>
+                        <p:selectBooleanCheckbox value="#{maestroBean.rolSeleccinado}" itemLabel="¿Desea otorgar permisos de director al siguiente usuario?" style="font-size: 16px;margin-left: 15px; margin-bottom: 15px" rendered="#{empty maestroBean.maestro.codigoMaestro}"/><br/>
+
+                        <h:inputHidden value="#{maestroBean.maestro.idMaestro}"/>
+                        <h:inputHidden value="#{maestroBean.maestro.codigoMaestro}"/>
+                        <h:inputHidden value="#{maestroBean.maestro.contra}"/>
+                        <h:inputHidden value="#{maestroBean.rolSeleccionado}"/>
+                        <h:inputHidden value="#{maestroBean.estadoSeleccionado}"/>
+                        <p:commandButton value="Guardar" update="@form" action="#{maestroBean.guardarMaestro()}"  ajax="false" style="font-size: 16px;margin-left: 15px; margin-bottom: 15px"/>
+                        <p:commandButton value="Limpiar" update="@form" styleClass="ui-button-secondary" action="#{maestroBean.limpiar()}"  ajax="false" style="font-size: 16px;margin-left: 15px; margin-bottom: 15px"/>
+
+                    </h:form>
+                </p:tab>
+                <p:tab title="Materias impartidas por #{maestroMateriaBean.maestroGet.nombres} #{maestroMateriaBean.maestroGet.apellidos}" style="font-size: 16px;">
+                    <h:form>
+                        <h:outputText value="Debes seleccionar un maestro para visualizar la materias impartidas por él"  rendered="#{not maestroMateriaBean.materias}"/>
+                        <h:outputText value="Esta acción esta disponible al presionar el botón agregar materias del boton operaciones"  rendered="#{not maestroMateriaBean.materias}"/>
+                        <b:dataTable value="#{maestroMateriaBean.lista}" var="mm" paginated="false" searching="false" style="width: 50%">
+                            <f:facet name="header">
+                                <tr>
+                                    <th>Materia</th>
+                                    <th>Operador</th>
+                                </tr>
+                            </f:facet>
+                            <b:dataTableColumn value="#{mm.materiaByIdMateria.materia}"/>
+                            <b:dataTableColumn>
+                                <h:commandButton value="Eliminar" styleClass="btn btn-danger" onclick="return confirmarEliminacionMaestroMateria();" action="#{maestroMateriaBean.eliminarMaestroMateria()}">
+                                    <f:param name="eliminado" value="#{mm.idMaestroMateria}" />
+                                </h:commandButton>
+                            </b:dataTableColumn>
+                        </b:dataTable>
+                    </h:form>
+                </p:tab>
+            </p:accordionPanel>
+        </div>
+
+        <h:form>
+            <b:dataTable value="#{maestroBean.maestroModel.maestroListaValidada(sessionScope.usuario.idMaestro)}" var="m">
+                <b:dataTableColumn value="#{m.codigoMaestro}" label="Codigo"/>
+                <b:dataTableColumn value="#{m.nombres} #{m.apellidos}" label="Nombre"/>
+                <b:dataTableColumn value="#{m.correo}"/>
+                <b:dataTableColumn value="#{m.direccion}"/>
+                <b:dataTableColumn value="#{m.telefono}"/>
+                <b:dataTableColumn value="#{m.estadoByIdEstado.estado}"/>
+
+                <b:dataTableColumn label="Operaciones">
+
+                    <h:commandButton value="Editar" styleClass="btn btn-info" action="#{maestroBean.obtenerMaestro()}" style="margin-right:10px" rendered="#{not m.rolByIdRol.rol.equals('Director')}">
+                        <f:param name="codigo" value="#{m.idMaestro}" />
+                    </h:commandButton>
+
+                    <h:commandButton value="X" styleClass="btn btn-danger" onclick="return confirmarEliminacion();" action="#{maestroBean.eliminarMaestro()}">
+                        <f:param name="codigo" value="#{m.idMaestro}" />
+                    </h:commandButton>
+
+                    <p:menuButton value="Operaciones" style="font-size: 16px">
+                        <p:menuitem value="Desactivar" action="#{maestroBean.desactivarAlumno()}" style="font-size: 16px" ajax="false">
+                            <f:param name="codigo" value="#{m.idMaestro}" />
+                        </p:menuitem>
+
+                        <p:menuitem value="Agregar Materias" action="#{maestroMateriaBean.agregarMaterias()}" style="font-size: 16px" ajax="false" rendered="#{not m.rolByIdRol.rol.equals('Director')}">
+                            <f:param name="codigo" value="#{m.idMaestro}" />
+                        </p:menuitem>
+                    </p:menuButton>
+                </b:dataTableColumn>
+            </b:dataTable>
+        </h:form>
+    </div>
+
+    <h:outputScript>
+        <c:if test = "#{not empty flash.exito}" >
+            alertify.success('#{flash.exito}');
+        </c:if>
+
+        function confirmarEliminacion(){
+            return confirm("¿Está seguro que desea eliminar este usuario");
+        }
+        function confirmarEliminacionMaestroMateria(){
+            return confirm("¿Está seguro que desea eliminar la materia?");
+        }
+    </h:outputScript>
+
+    <c:choose>
+        <c:when test="#{not empty sessionScope.rol}">
+            <c:set var="rol" value="#{sessionScope.rol}" />
+            <c:choose>
+                <c:when test="#{rol eq 'Maestro'}">
+                    <h:outputScript>
+                        window.location.href = '../../maestro/interfazMaestro.xhtml';
+                    </h:outputScript>
+                </c:when>
+                <c:when test="#{rol eq 'Alumno'}">
+                    <h:outputScript>
+                        window.location.href = '../../alumno/interfazAlumno.xhtml';
+                    </h:outputScript>
+                </c:when>
+            </c:choose>
+        </c:when>
+        <c:otherwise>
+            <h:outputScript>
+                window.location.href = '../../login.xhtml';
+            </h:outputScript>
+        </c:otherwise>
+    </c:choose>
+</h:body>
+
+</html>

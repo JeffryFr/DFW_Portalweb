@@ -1,0 +1,80 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Arial', sans-serif;
+    background: url('f20.png') center/cover no-repeat;
+}
+
+.login-container {
+    display: flex;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+
+.form-container {
+    flex: 1;
+    padding: 60px 40px;
+    background-color: rgba(231, 240, 236, 0.8);
+}
+
+.form {
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.form1-title {
+    font-family: 'Verdana', sans-serif;
+}
+
+.form1-label {
+    font-family: 'Verdana', sans-serif;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.form1-input {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: 'Verdana', sans-serif;
+}
+
+.form1b{
+    width: 100%;
+    padding: 15px;
+    background-color:  #044875;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    font-weight: bold;
+    font-family: 'Arial', sans-serif;
+}
+
+.form-recover-password {
+    text-align: center;
+    font-family: 'Verdana', sans-serif;
+    margin-top: 15px;
+}
+
+#alert1 {
+    background-color: #E7F0ECCC; /* Fondo rojo */
+    color: #e11a2c; /* Texto oscuro */
+    padding: 15px;
+    border: 1px solid #E7F0ECCC; /* Borde rojo claro */
+    border-radius: 4px;
+    font-weight: bold;
+    list-style-type: none; /* Elimina el estilo de lista */
+    margin: 0; /* Elimina el margen por defecto de la lista */
+    padding-left: 0; /* Elimina el relleno izquierdo de la lista */
+}
